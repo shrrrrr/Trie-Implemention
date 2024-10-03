@@ -1,0 +1,65 @@
+struct TrieNode{
+    struct TrieNode *childrens[26];
+    bool isLeaf;
+
+};
+class Trie {
+public:
+    TrieNode*root;
+
+    Trie() {
+        root=create_node();
+
+    }
+    TrieNode *create_node(void){
+        TrieNode*new_Node=new TrieNode;
+        for(int i=0;i<26;i++){
+            new_Node->childrens[i]=NULL;
+        }
+        new_Node->isLeaf=false;
+        return new_Node;
+    }
+
+    
+
+    void insert(string word) {
+        TrieNode*node=root;
+        int idx=0;
+        for(int i=0;i<word.size();i++){
+             idx=word[i]-'a';
+            if(node->childrens[idx]==NULL){
+                node->childrens[idx]=create_node();
+
+            }
+            node=node->childrens[idx];
+        }
+        node->isLeaf=true;
+        
+    }
+    
+    bool search(string word) {
+        TrieNode*node=root;
+        for(int i=0;i<word.size();i++){
+            int idx=word[i]-'a';
+            if(node->childrens[idx]==NULL){
+                return false;
+            }
+            node=node->childrens[idx];
+        }
+        return node->isLeaf;
+        
+    }
+    
+    bool startsWith(string prefix) {
+        TrieNode*node=root;
+        for(int i=0;i<prefix.size();i++){
+            int idx=prefix[i]-'a';
+            if(node->childrens[idx]==NULL){
+                return false;
+            }
+            node=node->childrens[idx];
+        }
+        return true;
+        
+    }
+};
